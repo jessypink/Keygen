@@ -3,11 +3,11 @@ package com.example.keygen
 import android.R.attr.label
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -125,6 +125,18 @@ class MainActivity : AppCompatActivity() {
         )
         val lv3: ListView = findViewById(R.id.listview3)
         lv3.setAdapter(adapter2)
+        val numberOfItems2: Int = adapter.getCount()
+        val numberOfItems3: Int = adapter2.getCount()
+        // Set list height.
+        // Set list height.
+        val params2: ViewGroup.LayoutParams = lv2.getLayoutParams()
+        params2.height = 150 * numberOfItems2
+        lv2.setLayoutParams(params2)
+        lv2.requestLayout()
+        val params3: ViewGroup.LayoutParams = lv3.getLayoutParams()
+        params3.height = 150 * numberOfItems3
+        lv3.setLayoutParams(params3)
+        lv3.requestLayout()
 
 
         //Обработчик кнопки Сгенерировать
