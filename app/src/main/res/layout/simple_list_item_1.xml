@@ -5,6 +5,7 @@
     android:padding="10dp"
     android:textColor="#00FF00"
     android:textSize="20sp"
-    android:textStyle="bold" >
+    android:textStyle="bold"
+    android:text="ghbdtn">
 
 </TextView>

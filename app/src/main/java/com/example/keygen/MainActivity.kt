@@ -49,10 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         var mSettings: SharedPreferences? = null
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        var APP_PREFERENCES = "mysettings"
-        var APP_PREFERENCES_NAME = "NameOfPass" // имя кота
-        var APP_PREFERENCES_AGE = "Pass" // возраст кота
+        mSettings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         val editor: SharedPreferences.Editor = mSettings.edit()
 
@@ -79,8 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         val NameOfPass: TextInputEditText = findViewById(R.id.nammmeditt)
 
-        val tv1: TextView = findViewById(R.id.textView7)
-        val tv2: TextView = findViewById(R.id.textView5)
        // val tv2: TextInputEditText = findViewById(R.id.textView3)
 
 
@@ -89,8 +84,48 @@ class MainActivity : AppCompatActivity() {
 
         val chpgr1: ChipGroup = findViewById(R.id.chipGroupCharacters)
 
-        tv1.setText(mSettings.getString(APP_PREFERENCES_NAME, ""))
-        tv2.setText(mSettings.getString(APP_PREFERENCES_AGE, ""))
+        val catNames = arrayOf(
+            "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
+            "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
+            "Китти", "Масяня", "Симба"
+        )
+        val catAges = arrayOf(
+            "23", "2323", "3526", "46", "45254",
+            "235625", "25466254", "25462546", "2546", "32321667",
+            "74587466", "56837565", "456"
+        )
+
+        var counteeeer3 = mSettings.getString(APP_PREFERENCES_COUNT, "")!!.toIntOrNull()!!
+        //var counteeeer3 = 0
+        var NamesOfSavedPass = arrayOf("d")
+        for (i in 1..counteeeer3 ) {
+            var getName = mSettings.getString(APP_PREFERENCES_NAME + i, "")!!
+            NamesOfSavedPass = NamesOfSavedPass + getName
+        }
+
+        var PassOfSavedPass = arrayOf("sec")
+        for (i in 1..counteeeer3) {
+            var getAge = mSettings.getString(APP_PREFERENCES_AGE + i, "")!!
+            PassOfSavedPass = PassOfSavedPass + getAge
+        }
+
+// используем адаптер данных
+
+// используем адаптер данных
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1, NamesOfSavedPass
+        )
+        val lv2: ListView = findViewById(R.id.listview2)
+        lv2.setAdapter(adapter)
+
+        val adapter2 = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1, PassOfSavedPass
+        )
+        val lv3: ListView = findViewById(R.id.listview3)
+        lv3.setAdapter(adapter2)
+
 
         //Обработчик кнопки Сгенерировать
         val btnToGenerate: Button = findViewById(R.id.btnGenerate)
@@ -138,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         val btnToCopy: Button = findViewById(R.id.btnCopy)
         btnToCopy.setOnClickListener {
             val clipboard: ClipboardManager =
-                getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText(label.toString(), passitog.text.toString())
             clipboard.setPrimaryClip(clip)
 
@@ -146,26 +181,26 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        var countOfSP = 0
+        var counter = 0
+
         val btnToSave: Button = findViewById(R.id.btnSave)
         btnToSave.setOnClickListener {
-
+            counter = mSettings.getString(APP_PREFERENCES_COUNT, "")!!.toIntOrNull()!!
+            countOfSP = mSettings.getString(APP_PREFERENCES_COUNT, "")!!.toIntOrNull()!!
+            ++counter
+            ++countOfSP
             var Nmme = NameOfPass.text.toString();
             var psswrd = passitog.text.toString()
-            editor.putString(APP_PREFERENCES_NAME, Nmme);
-            editor.putString(APP_PREFERENCES_AGE, psswrd);
+            editor.putString(APP_PREFERENCES_NAME + countOfSP, Nmme);
+            editor.putString(APP_PREFERENCES_AGE + countOfSP, psswrd);
             ///++countOfSavedPasswords
-            //editor.putString(APP_PREFERENCES_COUNT, countOfSavedPasswords.toString());
+            editor.putString(APP_PREFERENCES_COUNT, counter.toString());
             editor.apply();
 
-            if(mSettings.contains(APP_PREFERENCES_NAME)) {
-                tv1.setText(mSettings.getString(APP_PREFERENCES_NAME, ""));
-            }
-            if(mSettings.contains(APP_PREFERENCES_AGE)) {
-                tv2.setText(mSettings.getString(APP_PREFERENCES_AGE, passitog.text.toString()));
-            }
-
-
         }
+
+
 
 
         autoCompleteTextView.setAdapter(arrayAdapter)
